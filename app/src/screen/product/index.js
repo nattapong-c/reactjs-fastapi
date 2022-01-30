@@ -33,6 +33,9 @@ const ProductList = () => {
 
     return (
         <>
+            <div className='banner'>
+                <h1>Blue Vending Machine</h1>
+            </div>
             <Wrapper>
                 <h1>เลือกสินค้า</h1>
                 {error && (<Error message={error} />)}
@@ -41,7 +44,15 @@ const ProductList = () => {
                         products.length <= 0 ? (
                             <p>ไม่มีสินค้า</p>
                         ) : products.map(p => (
-                            <ProductCard key={p._id} id={p._id} name={p.name} price={p.price} stock={p.stock} category={p.category} />
+                            <ProductCard
+                                key={p._id}
+                                id={p._id}
+                                name={p.name}
+                                price={p.price}
+                                stock={p.stock}
+                                category={p.category}
+                                image={p.image}
+                            />
                         ))
                     }
                 </div>

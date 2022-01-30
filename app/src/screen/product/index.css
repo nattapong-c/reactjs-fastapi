@@ -170,3 +170,19 @@
   border-color: #AB8E80;
   color: #AB8E80;
 }
+
+.banner {
+  background-color: #40a9ff;
+  position: fixed;
+  top: 0;
+  padding: 10px;
+  text-align: center;
+  z-index: 999;
+  width: 100%;
+  box-shadow: 0 0 7px 0px;
+}
+
+.banner h1 {
+  color: #fff;
+  margin-bottom: 0;
+}
