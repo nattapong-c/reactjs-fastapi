@@ -1,0 +1,172 @@
+@media only screen and (min-width: 425px) {
+  .product-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .product-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .product-list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.product-list {
+  display: grid;
+}
+
+.load-more {
+  text-align: center;
+}
+
+@media only screen and (min-width: 1024px) {
+  .product-info {
+    display: flex;
+  }
+  .product-info .col {
+    margin: 0 10px;
+  }
+  .product-info .image {
+    height: auto;
+    width: 50%;
+  }
+}
+
+.product-info {
+  padding: 20px;
+}
+
+.product-info .image {
+  background-color: #ccc;
+}
+
+.product-info .info {
+  margin-top: 20px;
+}
+
+.product-info .tag {
+  background-color: skyblue;
+  color: #fff;
+  padding: 1px 8px;
+  width: max-content;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: normal;
+}
+
+.product-info h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 0;
+  line-height: 35px;
+}
+
+.product-info p {
+  margin-bottom: 0;
+}
+
+.product-info .price {
+  font-size: 2rem;
+}
+
+.product-info .stock {
+  color: #aaa;
+  margin-top: 5px;
+}
+
+.product-info .stock.out-of-stock {
+  color: #fff;
+  background-color: red;
+  width: max-content;
+  padding: 3px 10px;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+
+.product-info .buy-section.default {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.product-info .buy-section.default button {
+  width: 100%;
+}
+
+.buy-amount {
+  font-size: 2rem;
+  font-weight: bold;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: end;
+  padding: 0 5px;
+}
+
+.amount-count {
+  font-weight: bold;
+}
+
+.thankyou-text {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.money {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.money .coin {
+  border-radius: 100px;
+  margin: 15px 10px;
+}
+.money .coin.b1 {
+  height: 40px;
+  width: 40px;
+}
+.money .coin.b5 {
+  height: 50px;
+  width: 50px;
+}
+.money .coin.b10 {
+  height: 60px;
+  width: 60px;
+}
+
+.money .banknote-wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.money .banknote {
+  margin: 5px 10px;
+}
+
+.money .banknote.b20 {
+  border-color: #56D26D;
+  color: #56D26D;
+}
+
+.money .banknote.b50 {
+  border-color: #3DCDD6;
+  color: #3DCDD6;
+}
+
+.money .banknote.b100 {
+  border-color: #e56565;
+  color: #e56565;
+}
+
+.money .banknote.b500 {
+  border-color: #8F4AC5;
+  color: #8F4AC5;
+}
+
+.money .banknote.b1000 {
+  border-color: #AB8E80;
+  color: #AB8E80;
+}
