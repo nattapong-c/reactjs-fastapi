@@ -67,23 +67,12 @@ def get_product(product_id: str):
         raise HTTPException(status_code=400, detail="product not found")
     return {"data": encode(product)}
 
-@app.post("/test/", tags=["product"])
-def create_product(file: UploadFile):
-    print(file.filename)
-    # result = collection.insert_one(product.dict(by_alias=True))
-    # product = collection.find_one({"_id": ObjectId(result.inserted_id)})
-    # return {"data": encode(product)}
-    return {"data": "a,a,a,"}
 
 @app.post("/product/", tags=["product"])
-def create_product(file: UploadFile, name: str = Form(...), price: int = Form(...), category: str = Form(...), stock: int = Form(...)):
-    print(file.filename)
-    product = Product(name=name, price=price, category=category, stock=stock)
-    print(product)
-    # result = collection.insert_one(product.dict(by_alias=True))
-    # product = collection.find_one({"_id": ObjectId(result.inserted_id)})
-    # return {"data": encode(product)}
-    return {"data": "a,a,a,"}
+def create_product(product: Product):
+    result = collection.insert_one(product.dict(by_alias=True))
+    product = collection.find_one({"_id": ObjectId(result.inserted_id)})
+    return {"data": encode(product)}
 
 
 @app.put("/product/{product_id}", tags=["product"])
