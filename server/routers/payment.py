@@ -1,13 +1,11 @@
-from main import app, db
-from schema.payment import Payment
+import main
 from bson.objectid import ObjectId
-from utils.json_encode import encode
 from fastapi import HTTPException, Request
 import json
 from pymongo import DESCENDING, UpdateOne
 
 
-@app.post("/payment/", tags=["payment"])
+@main.app.post("/payment/", tags=["payment"])
 async def buy_product(req: Request):
     body = await req.body()
     body = json.loads(body)
@@ -20,7 +18,7 @@ async def buy_product(req: Request):
                             "error": "missing used_money"})
 
     product_id = ObjectId(body["product_id"])
-    product = db.product.find_one({"_id": product_id})
+    product = main.db.product.find_one({"_id": product_id})
     if product == None:
         raise HTTPException(status_code=400, detail={
                             "error": "product not found"})
@@ -33,7 +31,7 @@ async def buy_product(req: Request):
     for amount in used_money:
         money_amount.append(int(amount))
 
-    money_list = db.money.find({"amount": {"$in": money_amount}})
+    money_list = main.db.money.find({"amount": {"$in": money_amount}})
     if len(money_amount) != money_list.count():
         raise HTTPException(status_code=400, detail={
                             "error": "invalid money amount"})
@@ -52,7 +50,7 @@ async def buy_product(req: Request):
     available_changes = 0
     used_changes = {}
     bulk_update_money = []
-    money_available = db.money.find().sort(
+    money_available = main.db.money.find().sort(
         "amount", direction=DESCENDING)
 
     for info in money_available:
@@ -77,19 +75,19 @@ async def buy_product(req: Request):
             )
         )
     if changes == 0:
-        db.product.update_one(
+        main.db.product.update_one(
             {"_id": product_id},
             {"$inc": {"stock": -1}}
         )
-        db.money.bulk_write(bulk_update_money)
+        main.db.money.bulk_write(bulk_update_money)
     else:
         if expected_changes > available_changes and "accept_changes" in body:
             if body["accept_changes"]:
-                db.product.update_one(
+                main.db.product.update_one(
                     {"_id": product_id},
                     {"$inc": {"stock": -1}}
                 )
-                db.money.bulk_write(bulk_update_money)
+                main.db.money.bulk_write(bulk_update_money)
             else:
                 raise HTTPException(status_code=400, detail={
                                     "error": "change not enough", "can_accept": True, "expected_changes": expected_changes, "available_changes": available_changes})
