@@ -1,13 +1,18 @@
 from pydantic import BaseModel, Field
 from .objectid import PyObjectId
 from bson import ObjectId
+from enum import Enum
 
+class CategoryEnum(str, Enum):
+    food="food"
+    drink="drink"
+    snack="snack"
 
 class Product(BaseModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
     name: str
     price: int
-    category: str
+    category: CategoryEnum
     stock: int = 0
     image: ObjectId
 

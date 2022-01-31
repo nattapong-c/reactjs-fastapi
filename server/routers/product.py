@@ -89,9 +89,13 @@ def get_product(product_id: str):
 @app.post("/product/create", tags=["product"])
 async def create_product(file: UploadFile, name: str = Form(...), price: int = Form(...), category: str = Form(...), stock: int = Form(...)):
     image_allow = ["image/png", "image/jpeg"]
+    category_allow = ["food", "snack", "drink"]
     if file.content_type not in image_allow:
         raise HTTPException(
             status_code=400, detail="file not allow. must be .png or .jpeg")
+    if category not in category_allow:
+        raise HTTPException(
+            status_code=400, detail="invalid category. must be food, snack or drink")
     fs = gridfs.GridFS(db, "product_image")
     content = await file.read()
     image_id = fs.put(content)
@@ -111,6 +115,10 @@ async def update_product(product_id: str, file: Optional[UploadFile] = File(None
     if price != None:
         update["price"] = price
     if category != None:
+        category_allow = ["food", "snack", "drink"]
+        if category not in category_allow:
+            raise HTTPException(
+                status_code=400, detail="invalid category. must be food, snack or drink")
         update["category"] = category
     if stock != None:
         update["stock"] = stock
