@@ -3,6 +3,9 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from database.mongo import connectDB
+from dotenv import find_dotenv, load_dotenv
+import os
+load_dotenv(find_dotenv())
 
 app = FastAPI()
 origins = ["http://localhost:3000"]
@@ -23,4 +26,4 @@ from routers.money import *
 from routers.payment import *
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="localhost", port=3003, reload=True)
+    uvicorn.run("main:app", host="localhost", port=int(os.getenv('FASTAPI_PORT')), reload=True)
