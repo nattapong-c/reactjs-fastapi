@@ -17,6 +17,7 @@ const ProductList = () => {
     const products = useSelector((state) => state.product_list.products);
     const totalPage = useSelector((state) => state.product_list.total_page);
     const [currentPage, setCurrentPage] = useState(1);
+    const [currentCategory, setCurrentCategory] = useState("all")
 
     useEffect(() => {
         dispatch(todoActions.clearProducts());
@@ -27,8 +28,23 @@ const ProductList = () => {
     const loadMoreProduct = () => {
         let page = currentPage + 1;
         if (page > totalPage) return false;
-        dispatch(todoActions.getProducts(`?page=${page}&size=${SIZE}`));
+        if (currentCategory === "all") {
+            dispatch(todoActions.getProducts(`?page=${page}&size=${SIZE}`));
+        } else {
+            dispatch(todoActions.getProducts(`?page=${page}&size=${SIZE}&category=${currentCategory}`));
+        }
         setCurrentPage(page);
+    };
+
+    const filterProduct = (category) => {
+        dispatch(todoActions.clearProducts());
+        if (category === "all") {
+            dispatch(todoActions.getProducts(`?page=1&size=${SIZE}`));
+        } else {
+            dispatch(todoActions.getProducts(`?page=1&size=${SIZE}&category=${category}`));
+        }
+        setCurrentPage(1);
+        setCurrentCategory(category);
     };
 
     return (
@@ -37,8 +53,16 @@ const ProductList = () => {
                 <h1>Blue Vending Machine</h1>
             </div>
             <Wrapper>
-                {error && (<Error message={error} />)}
+                <div className='product-filter-wrapper'>
+                    <div className='product-filter'>
+                        <Button type={currentCategory === "all" ? "primary" : ""} onClick={() => filterProduct("all")}>All</Button>
+                        <Button type={currentCategory === "food" ? "primary" : ""} onClick={() => filterProduct("food")}>Food</Button>
+                        <Button type={currentCategory === "drink" ? "primary" : ""} onClick={() => filterProduct("drink")}>Drink</Button>
+                        <Button type={currentCategory === "snack" ? "primary" : ""} onClick={() => filterProduct("snack")}>Snack</Button>
+                    </div>
+                </div>
                 <div className='product-list'>
+                    {error && (<Error message={error} />)}
                     {
                         products.length <= 0 ? !loading && (
                             <p>ไม่มีสินค้า</p>

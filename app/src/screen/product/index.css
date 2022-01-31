@@ -148,13 +148,13 @@
 }
 
 .money .banknote.b20 {
-  border-color: #56D26D;
-  color: #56D26D;
+  border-color: #56d26d;
+  color: #56d26d;
 }
 
 .money .banknote.b50 {
-  border-color: #3DCDD6;
-  color: #3DCDD6;
+  border-color: #3dcdd6;
+  color: #3dcdd6;
 }
 
 .money .banknote.b100 {
@@ -163,13 +163,13 @@
 }
 
 .money .banknote.b500 {
-  border-color: #8F4AC5;
-  color: #8F4AC5;
+  border-color: #8f4ac5;
+  color: #8f4ac5;
 }
 
 .money .banknote.b1000 {
-  border-color: #AB8E80;
-  color: #AB8E80;
+  border-color: #ab8e80;
+  color: #ab8e80;
 }
 
 .banner {
@@ -186,4 +186,14 @@
 .banner h1 {
   color: #fff;
   margin-bottom: 0;
+}
+
+.product-filter-wrapper {
+  margin-top: 3.5rem;
+}
+
+.product-filter {
+  width: 300px;
+  display: flex;
+  justify-content: space-between;
 }
