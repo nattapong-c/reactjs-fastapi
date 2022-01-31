@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  client:
+      build:
+        context: .
+        dockerfile: app/Dockerfile
+      ports:
+        - 3000:80
+  server:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    ports:
+      - 3003:3003
+    environment:
+      - MONGODB_CONNECTION_STRING=mongodb://mongodb-challenge:27017/challenge
+  mongodb:
+    image: mongo
+    container_name: mongodb-challenge
+    environment:
+      - MONGO_INITDB_DATABASE=challenge
+    volumes:
+      - mongodbdata:/data/db
+volumes:
+  mongodbdata:
