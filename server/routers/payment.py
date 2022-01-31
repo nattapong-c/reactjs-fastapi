@@ -32,7 +32,8 @@ async def buy_product(req: Request):
         money_amount.append(int(amount))
 
     money_list = main.db.money.find({"amount": {"$in": money_amount}})
-    if len(money_amount) != money_list.count():
+    money_list_count = main.db.money.count_documents({"amount": {"$in": money_amount}})
+    if len(money_amount) != money_list_count:
         raise HTTPException(status_code=400, detail={
                             "error": "invalid money amount"})
 
