@@ -60,5 +60,6 @@ def delete_money(money_id: str):
 
 @app.post("/money/init", tags=["money"])
 def init_money():
+    collection.delete_many({})
     collection.insert_many(money_data)
     return {"data": "done"}

@@ -6,9 +6,10 @@ from bson.objectid import ObjectId
 from utils.json_encode import encode
 from fastapi import File, Form, HTTPException, UploadFile
 import math
-# from spec.data.product import products as mock_product
+from spec.data.product import products as mock_product
 import gridfs
 import base64
+import os
 
 collection = db.product
 
@@ -142,8 +143,18 @@ def delete_product(product_id: str):
     return {"data": encode(product)}
 
 
-# @app.post("/reset-data/", tags=["product"])
-# def reset_data():
-#     collection.delete_many({})
-#     collection.insert_many(mock_product)
-#     return {"data": "done"}
+@app.post("/product/init", tags=["product"])
+def init_product():
+    collection.delete_many({})
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    fs = gridfs.GridFS(db, "product_image")
+    image_id = ""
+    with open(dir_path + "/../spec/data/demo_image.jpeg", "rb") as image:
+        image_id = fs.put(image)
+    products = []
+    for p in mock_product:
+        products.append({**p, "image": image_id})
+
+    collection.delete_many({})
+    collection.insert_many(products)
+    return {"data": "done"}
