@@ -6,7 +6,7 @@ from bson.objectid import ObjectId
 from utils.json_encode import encode
 from fastapi import File, Form, HTTPException, UploadFile
 import math
-from spec.data.product import products as mock_product
+# from spec.data.product import products as mock_product
 import gridfs
 import base64
 
@@ -70,7 +70,12 @@ def get_products(page: int = 1, size: int = 10, category: str = None, only_avail
 @app.get("/product/{product_id}", tags=["product"])
 def get_product(product_id: str):
     fs = gridfs.GridFS(db, "product_image")
-    product = collection.find_one({"_id": ObjectId(product_id)})
+    id = ""
+    try:
+        id = ObjectId(product_id)
+    except:
+        raise HTTPException(status_code=400, detail="product not found")
+    product = collection.find_one({"_id": id})
     if product == None:
         raise HTTPException(status_code=400, detail="product not found")
     image = fs.get(product["image"]).read()
@@ -137,8 +142,8 @@ def delete_product(product_id: str):
     return {"data": encode(product)}
 
 
-@app.post("/reset-data/", tags=["product"])
-def reset_data():
-    collection.delete_many({})
-    collection.insert_many(mock_product)
-    return {"data": "done"}
+# @app.post("/reset-data/", tags=["product"])
+# def reset_data():
+#     collection.delete_many({})
+#     collection.insert_many(mock_product)
+#     return {"data": "done"}
