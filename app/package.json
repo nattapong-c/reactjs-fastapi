@@ -25,8 +25,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "env:dev": "node src/scripts/set-environment.js dev",
-    "start_dev": "yarn env:dev && yarn start",
-    "build_web": "yarn env:dev && yarn build && rm -Rf ../server/public && mv build ../server/public"
+    "start_dev": "yarn env:dev && yarn start"
   },
   "eslintConfig": {
     "extends": [
