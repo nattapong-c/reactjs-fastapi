@@ -105,7 +105,7 @@ const ProductInfo = () => {
             </div>
             <div className='product-info'>
                 <div className='col image'>
-                    <img alt='' src={info?.image} width="200px"/>
+                    <img alt='' src={"data:image/png;base64,"+info?.image} width="200"/>
                 </div>
                 <div className='col info'>
                     <h1>{info?.name}</h1>

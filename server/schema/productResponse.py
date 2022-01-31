@@ -3,13 +3,13 @@ from .objectid import PyObjectId
 from bson import ObjectId
 
 
-class Product(BaseModel):
+class ProductResponse(BaseModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
     name: str
     price: int
     category: str
     stock: int = 0
-    image: ObjectId
+    image: str
 
     class Config:
         allow_population_by_field_name = True
