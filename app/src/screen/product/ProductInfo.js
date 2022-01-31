@@ -103,63 +103,66 @@ const ProductInfo = () => {
             <div style={{ padding: "20px" }}>
                 <Button><Link to="/">กลับไปหน้าแรก</Link></Button>
             </div>
-            <div className='product-info'>
-                <div className='col image'>
-                    <img alt='' src={"data:image/png;base64,"+info?.image} width="200"/>
-                </div>
-                <div className='col info'>
-                    <h1>{info?.name}</h1>
-                    <p className='price'>{info?.price ? getNumberAmountFormat(info.price) : "-"} บาท</p>
-                    <div className='tag'>{info?.category}</div>
-                    {info?.stock > 0 ? (<p className='stock'>เหลือ {info?.stock} ชิ้น</p>) : (<p className='stock out-of-stock'>OUT OF STOCK</p>)}
-                    <div className={`buy-section ${isBuyStage ? 'buying' : 'default'}`}>
-                        <Modal visible={buyAlert} onCancel={() => clearAmount(false)} onOk={() => buyProduct(false)} cancelText="คืนเงิน" okText="ยืนยัน" closable={false}>
-                            ยืนยันการซื้อ
-                        </Modal>
-                        <Modal visible={buyAlert && buyError !== null} onCancel={() => clearAmount(true)} onOk={() => buyProduct(true)} cancelText="คืนเงิน" okText="ยืนยัน" closable={false}>
-                            {getBuyError(buyError?.error, buyError?.available_changes, buyError?.expected_changes)}
-                        </Modal>
-                        <Modal visible={errorAlert && buyError !== null}
-                            closable={false}
-                            footer={[
-                                <Button key="ok" onClick={() => clearAmount(true, true)}>ปิด</Button>
-                            ]}>
-                            {getBuyError(buyError?.error)}
-                        </Modal>
-                        <Modal
-                            visible={buyError === null && buyInfo !== null}
-                            closable={false}
-                            footer={[
-                                <Button key="ok" onClick={() => clearAmount(true, true)}>ปิด</Button>
-                            ]}
-                        >
-                            <p className='thankyou-text'>ขอบคุณที่ใช้บริการ</p>
-                            {buyInfo?.available_changes > 0 && (<p>รับเงินทอน {getNumberAmountFormat(buyInfo?.available_changes)} บาท</p>)}
-                            {buyInfo?.used_changes && renderChanges(buyInfo?.used_changes)}
-                        </Modal>
-                        {isBuyStage ? (
-                            <div>
-                                <div style={{ marginTop: "40px" }}>
-                                    <p className='buy-amount'>{getNumberAmountFormat(amount)} บาท</p>
+            {info && (
+                <div className='product-info'>
+                    <div className='col image'>
+                        <img alt='' src={"data:image/png;base64," + info?.image} width="200" />
+                    </div>
+                    <div className='col info'>
+                        <h1>{info?.name}</h1>
+                        <p className='price'>{info?.price ? getNumberAmountFormat(info.price) : "-"} บาท</p>
+                        <div className='tag'>{info?.category}</div>
+                        {info?.stock > 0 ? (<p className='stock'>เหลือ {info?.stock} ชิ้น</p>) : (<p className='stock out-of-stock'>OUT OF STOCK</p>)}
+                        <div className={`buy-section ${isBuyStage ? 'buying' : 'default'}`}>
+                            <Modal visible={buyAlert} onCancel={() => clearAmount(false)} onOk={() => buyProduct(false)} cancelText="คืนเงิน" okText="ยืนยัน" closable={false}>
+                                ยืนยันการซื้อ
+                            </Modal>
+                            <Modal visible={buyAlert && buyError !== null} onCancel={() => clearAmount(true)} onOk={() => buyProduct(true)} cancelText="คืนเงิน" okText="ยืนยัน" closable={false}>
+                                {getBuyError(buyError?.error, buyError?.available_changes, buyError?.expected_changes)}
+                            </Modal>
+                            <Modal visible={errorAlert && buyError !== null}
+                                closable={false}
+                                footer={[
+                                    <Button key="ok" onClick={() => clearAmount(true, true)}>ปิด</Button>
+                                ]}>
+                                {getBuyError(buyError?.error)}
+                            </Modal>
+                            <Modal
+                                visible={buyError === null && buyInfo !== null}
+                                closable={false}
+                                footer={[
+                                    <Button key="ok" onClick={() => clearAmount(true, true)}>ปิด</Button>
+                                ]}
+                            >
+                                <p className='thankyou-text'>ขอบคุณที่ใช้บริการ</p>
+                                {buyInfo?.available_changes > 0 && (<p>รับเงินทอน {getNumberAmountFormat(buyInfo?.available_changes)} บาท</p>)}
+                                {buyInfo?.used_changes && renderChanges(buyInfo?.used_changes)}
+                            </Modal>
+                            {isBuyStage ? (
+                                <div>
+                                    <div style={{ marginTop: "40px" }}>
+                                        <p className='buy-amount'>{getNumberAmountFormat(amount)} บาท</p>
+                                    </div>
+                                    <div className='money'>
+                                        <div>
+                                            {coin.map(c => (<Button className={`coin b${c}`} key={c} onClick={() => onClickMoney(c)}>{c}</Button>))}
+                                        </div>
+                                        <div className='banknote-wrapper'>
+                                            {banknote.map(b => (<Button className={`banknote b${b}`} key={b} onClick={() => onClickMoney(b)}>{b}</Button>))}
+                                        </div>
+                                        <div style={{ marginTop: "15px" }}>
+                                            <Button onClick={() => clearAmount()}>คืนเงิน</Button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className='money'>
-                                    <div>
-                                        {coin.map(c => (<Button className={`coin b${c}`} key={c} onClick={() => onClickMoney(c)}>{c}</Button>))}
-                                    </div>
-                                    <div className='banknote-wrapper'>
-                                        {banknote.map(b => (<Button className={`banknote b${b}`} key={b} onClick={() => onClickMoney(b)}>{b}</Button>))}
-                                    </div>
-                                    <div style={{ marginTop: "15px" }}>
-                                        <Button onClick={() => clearAmount()}>คืนเงิน</Button>
-                                    </div>
-                                </div>
-                            </div>
-                        ) : info?.stock > 0 && (
-                            <Button type='primary' onClick={() => setIsBuyState(true)}>จ่ายเงิน</Button>
-                        )}
+                            ) : info?.stock > 0 && (
+                                <Button type='primary' onClick={() => setIsBuyState(true)}>จ่ายเงิน</Button>
+                            )}
+                        </div>
                     </div>
                 </div>
-            </div>
+            )}
+
         </>
     )
 };
