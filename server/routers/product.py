@@ -11,7 +11,7 @@ import gridfs
 import base64
 import os
 
-@main.app.get("/product/", tags=["product"])
+@main.app.get("/product", tags=["product"])
 def get_products(page: int = 1, size: int = 10, category: str = None, only_available: bool = False):
     page = page - 1
     if page < 0:

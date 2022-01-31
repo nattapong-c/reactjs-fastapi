@@ -5,7 +5,7 @@ import json
 from pymongo import DESCENDING, UpdateOne
 
 
-@main.app.post("/payment/", tags=["payment"])
+@main.app.post("/payment", tags=["payment"])
 async def buy_product(req: Request):
     body = await req.body()
     body = json.loads(body)

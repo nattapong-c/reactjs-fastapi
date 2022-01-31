@@ -7,7 +7,7 @@ from fastapi import HTTPException
 from spec.data.money import money as money_data
 
 
-@main.app.get("/money/", tags=["money"])
+@main.app.get("/money", tags=["money"])
 def get_money_list():
     money_list = main.db.money.find().sort("amount")
     money_list_data = []

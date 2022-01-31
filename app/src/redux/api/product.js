@@ -3,7 +3,7 @@ import ENV from '../../env.json';
 
 export const getProducts = async (params) => {
     try {
-        return await axios.get(`${ENV.API_URL}/product/${params}`, {
+        return await axios.get(`${ENV.API_URL}/product${params}`, {
             headers: {
                 'content-type': 'application/json',
             },
