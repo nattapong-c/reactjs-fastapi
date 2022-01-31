@@ -1,26 +1,22 @@
-# from main import app
-# from database.mongo import connectDB
-# from fastapi.testclient import TestClient
-# from bson import ObjectId
+import main
+from pymongo import MongoClient
+from fastapi.testclient import TestClient
+
+def override_get_db():
+    return MongoClient("mongodb://admin:admin@localhost:27017/challenge_test?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false")
+
+testdb = override_get_db()
+main.db = testdb.challenge_test
+client = TestClient(main.app)
 
 
-# client = TestClient(app)
-# connection = connectDB()
-# db = connection.challenge_test
-# collection = db.product
+def clear_product_db():
+    main.db.product.delete_many({})
 
 
-# app.dependency_overrides["db"] = db
-
-
-# def test_get_product():
-#     id = ObjectId()
-#     collection.insert_one({"_id": id, "name": "test1", "price": 30, "category": "food", "stock": 5})
-#     response = client.get("/product/"+str(id))
-#     print(str(id))
-#     assert response.status_code == 200
-#     # assert response.json() == {"data":{"_id": id, "name": "test1", "price": 30, "category": "food", "stock": 5}}
-
-
-# connection.drop_database("challenge_test")
-# connection.close()
+def test_get_products():
+    client.post("/product/init")
+    response = client.get("/product")
+    assert response.status_code == 200
+    assert response.json()["data"]["products"][0]["name"] == "item-1"
+    clear_product_db()
