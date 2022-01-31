@@ -4,6 +4,7 @@ from schema.moneyUpdate import MoneyUpdate
 from bson.objectid import ObjectId
 from utils.json_encode import encode
 from fastapi import HTTPException
+from spec.data.money import money as money_data
 
 collection = db.money
 @app.get("/money/", tags=["money"])
@@ -56,3 +57,8 @@ def delete_money(money_id: str):
         raise HTTPException(status_code=400, detail="money not found")
     collection.delete_one({"_id": ObjectId(money_id)})
     return {"data": encode(money)}
+
+@app.post("/money/init", tags=["money"])
+def init_money():
+    collection.insert_many(money_data)
+    return {"data": "done"}
