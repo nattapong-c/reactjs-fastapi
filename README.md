@@ -48,3 +48,16 @@ docker-compose up --build
 4. Click "Execute" to init product data
 
 *NOTE: You can see init data in /server/spec/data
+
+### Testing
+Use Pytest for unit testing
+
+example command
+
+```
+pytest -s spec/test_buy_product.py
+```
+or
+```
+python3 -m pytest -s spec/test_buy_product.py
+```
