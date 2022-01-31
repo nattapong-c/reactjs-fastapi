@@ -17,6 +17,7 @@
 }
 
 .product-list {
+  margin-top: 2.5rem;
   display: grid;
 }
 

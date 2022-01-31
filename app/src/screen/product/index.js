@@ -37,11 +37,10 @@ const ProductList = () => {
                 <h1>Blue Vending Machine</h1>
             </div>
             <Wrapper>
-                <h1>เลือกสินค้า</h1>
                 {error && (<Error message={error} />)}
                 <div className='product-list'>
                     {
-                        products.length <= 0 ? (
+                        products.length <= 0 ? !loading && (
                             <p>ไม่มีสินค้า</p>
                         ) : products.map(p => (
                             <ProductCard
